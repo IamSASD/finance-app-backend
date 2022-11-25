@@ -6,11 +6,10 @@ let response ={
 
 exports.create = function(req,res){
     let actividad = new Actividad({
-        actividad_id: req.body.actividad_id,
         nombre: req.body.nombre,
         ingreso_egreso: req.body.ingreso_egreso,
-        descripcion: req.body.descripcion
-        
+        descripcion: req.body.descripcion,
+        userId: req.user.id
     })
 
     actividad.save(function(err){
@@ -28,10 +27,9 @@ exports.create = function(req,res){
     })
 }
 
-exports.find = function(req,res){
-    Actividad.find(function(err, actividad){
-        res.json(actividad)
-    })
+exports.find = async function(req,res){
+    const actividades = await Actividad.find({ user: req.user.id }).sort('desc');
+    return res.json( actividades );
 }
 
 exports.findOne = function(req,res){

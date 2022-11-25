@@ -6,11 +6,10 @@ let response ={
 
 exports.create = function(req,res){
     let producto = new Producto({
-        producto_id: req.body.producto_id,
         nombre: req.body.nombre,
         descripcion: req.body.descripcion,
-        usuario: req.body.usuario
-        
+        tipo: req.body.tipo,
+        userId: req.user.id
     })
 
     producto.save(function(err){
@@ -28,21 +27,16 @@ exports.create = function(req,res){
     })
 }
 
-exports.find = function(req,res){
-    Producto.find(function(err, producto){
-        res.json(producto)
-    })
-}
-
-exports.findOne = function(req,res){
-    Producto.findOne({_id: req.params.id},function(err, producto){
-        res.json(producto)
-    })
+exports.find = async function(req,res){
+    if(req.user){
+        const productos = await Producto.find({ userId: req.user.id }).sort('desc');
+        return res.json( productos )
+    }
+    return res.json( {message: "no estas logeado"} )
 }
 
 exports.update = function(req,res){
     let producto = {
-        producto_id: req.body.producto_id,
         nombre: req.body.nombre,
         descripcion: req.body.descripcion,
         usuario: req.body.usuario

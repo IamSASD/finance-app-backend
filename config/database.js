@@ -1,11 +1,8 @@
 const mongoose = require ("mongoose");
-
-const host="localhost";
-const port="27017";
-const db="hr";
+const { MONGODB_URI } = require("../config.js");
 
 exports.mongoConnect = () => {
-    const mongoStringConnection = `mongodb://${host}:${port}/${db}`;
+    const mongoStringConnection = MONGODB_URI;
     mongoose.connect(mongoStringConnection);
     mongoose.Promise = global.Promise;
     const dbConnection = mongoose.connection;

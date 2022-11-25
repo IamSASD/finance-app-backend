@@ -1,10 +1,11 @@
 const express = require("express")
 const router = express.Router()
-const productosController = require("../controllers/productos.controller")
+const productosController = require("../controllers/productos.controller");
+const { isAuthenticated } = require('../auth/isAuthenticated');
+
 //crud
-router.post("/", productosController.create)
-router.get("/", productosController.find)
-router.get("/:id", productosController.findOne)
+router.post("/", isAuthenticated ,productosController.create)
+router.get("/", isAuthenticated ,productosController.find)
 router.put("/:id", productosController.update)
 router.delete("/:id", productosController.remove)
 

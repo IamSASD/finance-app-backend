@@ -1,25 +1,24 @@
 
 const Usuario = require("../models/usuarios.model");
-const crypto = require("crypto")
-const jwt = require("jsonwebtoken")
 
-exports.login = function(req, res, next){
 
-    let hashedpass = crypto.createHash("sha512").update(req.body.pass).digest("hex");
-
-    Usuario.findOne({ usuario: req.body.usuario, pass: hashedpass}, function(err, usuario){
-        let response = {
-        token:null
-        }
-
-        if(usuario !== null){
-            response.token = jwt.sign({
-                id: usuario._id,
-                usuario: usuario.usuario
-            }, "__recret__",
-            { expiresIn: '12h'}
-            )
-        }
-        res.json(response);
-    })
+exports.register = async function(req, res) {
+    const { usuario, email, password  } = req.body;
+    Usuario.init()
+    .then( async() => {
+        const user = new Usuario({
+            usuario,
+            email,
+            password
+        });
+        user.password = await user.encryptPassword(user.password);
+        await user.save();
+    
+        return res.json({ msg: "user added" });
+    } )
+    .catch(error => {
+        return res.json({ msg: "El email ya esta registrado" });
+    });
 }
+
+
