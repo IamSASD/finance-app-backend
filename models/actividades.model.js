@@ -2,9 +2,10 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const ActividadesSchema = new Schema({
-    nombre:{type: String, required: true, max:60},
+    concepto:{type: String, required: true, max:100},
+    cantidad:{type: Number, required: true, max:100},
+    producto:{type: String, required: true, max:20},
     ingreso_egreso:{type: String, required: true, max:80},
-    descripcion:{type: String, required: true, max:100},
     userId: {type: String}
 });
 

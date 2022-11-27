@@ -5,6 +5,7 @@ const logger = require('morgan');
 const passport = require('passport');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
+const cors = require('cors');
 
 const productosRouter =require('./routes/productos.router');
 const actividadesRouter =require('./routes/actividades.router');
@@ -18,13 +19,17 @@ const app = express();
 
 app.use(logger('dev'));
 app.use(express.json());
+app.use(cors({ 
+  origin: true,
+  credentials: true,
+ }));
 // app.use(express.urlencoded({ extended: false }));
 // app.use(express.static(path.join(__dirname, 'public')));
 //autenticacion de usuario
 app.use(
   session({
     secret: SECRET,
-    resave: false,
+    resave: true,
     saveUninitialized: true,
     store: MongoStore.create({mongoUrl: MONGODB_URI})
   })

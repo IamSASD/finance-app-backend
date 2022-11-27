@@ -6,9 +6,8 @@ let response ={
 
 exports.create = function(req,res){
     let producto = new Producto({
-        nombre: req.body.nombre,
-        descripcion: req.body.descripcion,
         tipo: req.body.tipo,
+        producto: req.body.producto,
         userId: req.user.id
     })
 
@@ -37,9 +36,8 @@ exports.find = async function(req,res){
 
 exports.update = function(req,res){
     let producto = {
-        nombre: req.body.nombre,
-        descripcion: req.body.descripcion,
-        usuario: req.body.usuario
+        tipo: req.body.tipo,
+        producto: req.body.producto,
     }
 
     Producto.findByIdAndUpdate(req.params.id, {$set: producto}, function(err){

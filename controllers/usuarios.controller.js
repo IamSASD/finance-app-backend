@@ -14,10 +14,12 @@ exports.register = async function(req, res) {
         user.password = await user.encryptPassword(user.password);
         await user.save();
     
-        return res.json({ msg: "user added" });
+        return res.json({ code: 2 ,msg: "user added" });
     } )
-    .catch(error => {
-        return res.json({ msg: "El email ya esta registrado" });
+    .catch(err => {
+        const { code } = err;
+        if(code === 11000){return res.json({ code: 0, msg: 'Email already exist'})}
+        console.log(err);
     });
 }
 

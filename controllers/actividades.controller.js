@@ -6,9 +6,10 @@ let response ={
 
 exports.create = function(req,res){
     let actividad = new Actividad({
-        nombre: req.body.nombre,
+        concepto: req.body.concepto,
+        cantidad: req.body.cantidad,
+        producto: req.body.producto,
         ingreso_egreso: req.body.ingreso_egreso,
-        descripcion: req.body.descripcion,
         userId: req.user.id
     })
 
