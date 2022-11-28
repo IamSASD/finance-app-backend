@@ -15,7 +15,7 @@ router.post( '/logout', (req, res, next) => {
 } );
 
 router.post( '/checkout', isAuthenticated, (req, res) => {
-    res.json({ auth: true })
+    res.json({ auth: true, user: req.user })
 } )
 
 router.post( "/register", usuariosController.register );
