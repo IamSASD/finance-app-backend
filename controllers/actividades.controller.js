@@ -29,7 +29,7 @@ exports.create = function(req,res){
 }
 
 exports.find = async function(req,res){
-    const actividades = await Actividad.find({ user: req.user.id }).sort('desc');
+    const actividades = await Actividad.find({ userId: req.user.id }).sort('desc');
     return res.json( actividades );
 }
 
